@@ -200,6 +200,11 @@ Definition div_tiny_stays_subnormal_uf :
 Definition div_tiny_carries_to_normal_uf_s_rup :
   fp_div fmt_single RUP 0x00800000 0x3f800001
   = (0x00800000, Fflags false false false true true) := eq_refl.
+(** The negative quotient under RDN, which rounds the magnitude up: the
+    sign path of the same carry to the smallest normal. *)
+Definition div_tiny_carries_to_normal_uf_neg_rdn :
+  fp_div D RDN 0x801fffffffffffff 0x4000000000000000
+  = (0x8010000000000000, Fflags false false false true true) := eq_refl.
 
 (** The directed-rounding shape of the same boundary, in single
     precision (fmsub.s / fmsub.d under RDN).  RDN on a NEGATIVE
