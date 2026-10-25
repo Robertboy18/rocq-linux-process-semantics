@@ -315,6 +315,14 @@ Goal bool_decide (decode16 0x7139 (* c.addi16sp sp,-64 *)
 Proof. vm_compute. reflexivity. Qed.
 (* c.addi16sp with nzimm = 0 is reserved *)
 Goal decode16 0x6101 = None. Proof. vm_compute. reflexivity. Qed.
+(* ...but a nonzero nzimm still decodes, with bit 12 clear or with only
+   bit 12 set *)
+Goal bool_decide (decode16 0x6141 (* c.addi16sp sp,16 *)
+  = Some (CAddi16sp (Z_to_bv 10 16))) = true.
+Proof. vm_compute. reflexivity. Qed.
+Goal bool_decide (decode16 0x7101 (* c.addi16sp sp,-512 *)
+  = Some (CAddi16sp (Z_to_bv 10 (-512)))) = true.
+Proof. vm_compute. reflexivity. Qed.
 (* Low bits 11: not a compressed instruction *)
 Goal decode16 0x0013 = None. Proof. vm_compute. reflexivity. Qed.
 (* decode_any picks the right width *)
